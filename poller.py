@@ -1,21 +1,47 @@
 # -*- coding: utf-8 -*-
-
+import pdb
 
 class Poller(object):
 
     """ Holds candidates for a poll and counts up the votes
         cast to each candidate
     """
+    # A static variable to limit the number of votes a single user can cast
+    VOTE_LIMIT = 3
 
     def __init__(self, candidates=[]):
         self._candidates = candidates
+        self._misscast = list(self._candidates)
 
     def add_candidate(self, name):
         new_candidate = Candidate(name)
+        #pdb.set_trace()
         if new_candidate not in self._candidates:
             self._candidates.append(new_candidate)
+            self._misscast.append(new_candidate)
         else:
             raise Exception("Candidate already exists")
+
+    def add_vote(self, name, voter):
+        votes = 0
+        can_vote = True
+
+        for candidate in self:
+            votes += candidate._votes.count(voter)
+            if votes >= self.VOTE_LIMIT:
+                can_vote = False
+                break
+    
+        if can_vote:
+            for candidate in self._candidates:
+                if candidate._name == name:
+                    candidate._votes.append(voter)
+        else: 
+            for candidate in self._misscast:
+                if candidate._name == name:
+                    candidate._votes.append(voter)
+
+        return can_vote
 
     def __iter__(self):
         return iter(self._candidates)
