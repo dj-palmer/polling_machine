@@ -1,0 +1,20 @@
+## General comments
+- I tried to develop the polling machine as a minimum viable product, getting 
+ something working quickly without worrying about extra components like 
+ databases etc. When 'auto-voting' please keep to 250k votes or below.
+
+ - The program is designed with the minimum of setup needed...
+ e.g. not using a database. This turned out to be the way not to do it,
+ , since the application struggles when it gets passed 250k votes.
+
+ - My basic thinking was to do all the checks up front, so that we know all 
+   votes placed to the candidates are valid, and we don't need to filter
+   out any illegal votes when counting. This has resulted in a very quick display
+   of the poll, but it takes an hour to build a poll with 1m votes :/
+
+ - Sady, I did not get time to make improvements to the code, when I found it to be
+  so underperformant. Having had more time I would have looked at
+  * splitting out the candidates votes to reduce the sizes of arrarys produced.
+  * hooking into a database, and analysing the votes there
+  * storing the total votes in the candidate object
+
