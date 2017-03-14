@@ -105,6 +105,7 @@ def auto_vote(poll):
                     voter = randint(1, vote_num)
                     vote = randint(1, len(poll._candidates))
                     poll.add_vote(selection[vote], voter)
+                break
         except ValueError:
             print "\nUnknown Option Selected - please try again or enter 'q' to go back to main menu"
 
