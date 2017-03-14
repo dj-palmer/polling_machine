@@ -2,6 +2,7 @@
 import pdb
 from copy import deepcopy
 
+
 class Poller(object):
 
     """ Holds candidates for a poll and counts up the votes
@@ -10,7 +11,7 @@ class Poller(object):
         Set the VOTE_LIMIT class variable to set the maximum the same user
         can vote. Any votes cast over this limit are stored in the _miscast
         variable, so we can audit all the votes cast if necessary. However,
-        our poll object will only report on valid votes cast. 
+        our poll object will only report on valid votes cast.
 
     """
     # A static variable to limit the number of votes a single user can cast
@@ -38,12 +39,12 @@ class Poller(object):
             if votes >= self.VOTE_LIMIT:
                 can_vote = False
                 break
-    
+
         if can_vote:
             for candidate in self._candidates:
                 if candidate._name == name:
                     candidate._votes.append(voter)
-        else: 
+        else:
             for candidate in self._miscast:
                 if candidate._name == name:
                     candidate._votes.append(voter)
@@ -57,17 +58,18 @@ class Poller(object):
         """ A nice representation of our poll for displaying to the host.
             Displays up to first 20 chars of candidate names
         """
-        
+
         results = "\nThe results are in!:" \
             + "\n:---------------------------------------------:" \
             + "\n| {0:<30s} | {1:10s} |".format("Candidate", "Votes") \
-            + "\n:---------------------------------------------:" 
-            
+            + "\n:---------------------------------------------:"
+
         for candidate in self._candidates:
-            results += "\n| {0:<30s} | {1:10d} |".format(candidate._name[0:20], len(candidate._votes))
-        
+            results += "\n| {0:<30s} | {1:10d} |".format(candidate._name[0:20],
+                                                         len(candidate._votes))
+
         results += "\n:---------------------------------------------:" \
-        
+
         return results
 
 
@@ -85,10 +87,10 @@ class Candidate(object):
         self._votes.append(voter)
 
     def __eq__(self, other):
-        """ A candidate must have a unique name, otherwise we 
+        """ A candidate must have a unique name, otherwise we
             assume they are the same person.
         """
         if self._name == other._name:
             return True
-        else: 
+        else:
             return False
