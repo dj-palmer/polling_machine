@@ -14,20 +14,24 @@ and the poller reports the time.
 run count_me_up.py using Python (2.7 onwards), or make the file 
 executable and run directly.
 
-~ python ./count_me_up.py ~
+`python ./count_me_up.py`
 
 or make executable and run
-~ chmod +x ./count_me_up.py ~
-~ ./count_me_up.py ~
+`chmod +x ./count_me_up.py`
+
+`./count_me_up.py`
 
 This will bring up a menu screen where you can select from the following
 options
 
 ['P/p'] : Prints the current standing of the poll.
+
 ['V/v'] : Allows a user to enter a username, and vote for one of the candidates
 		  in the poll.
+		  
 ['A/a'] : Allows a user to specify a number of votes, that are made under
 		  anonymous users.
+		  
 ['Q/q'] : Quits the poll machines.
 
 To build a poll with X number of votes, choose option 'a', then enter the
