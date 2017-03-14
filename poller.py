@@ -54,18 +54,20 @@ class Poller(object):
         return iter(self._candidates)
 
     def __repr__(self):
-        """ A nice representation of our poll for displaying to the host"""
+        """ A nice representation of our poll for displaying to the host.
+            Displays up to first 20 chars of candidate names
+        """
         
         results = "\nThe results are in!:" \
-            + "\n:--------------------------------:" \
-            + "\n|Candidate     | Votes           |" \
-            + "\n:--------------------------------:"
-        
+            + "\n:---------------------------------------------:" \
+            + "\n| {0:<30s} | {1:10s} |".format("Candidate", "Votes") \
+            + "\n:---------------------------------------------:" 
+            
         for candidate in self._candidates:
-            results += "\n|%s   |%s                |" % (candidate._name, len(candidate._votes))
-
-        results += "\n:--------------------------------:"
-
+            results += "\n| {0:<30s} | {1:10d} |".format(candidate._name[0:20], len(candidate._votes))
+        
+        results += "\n:---------------------------------------------:" \
+        
         return results
 
 
