@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import argparse
+from os import sys
 from poller import Poller
 from collections import OrderedDict
 from random import randint
@@ -101,10 +101,12 @@ def auto_vote(poll):
                 break
             else:
                 vote_num=int(vote_num)
+                sys.stdout.write("Auto voting, vote 1 of %s\r" % (vote_num))
                 for i in range(0, vote_num):
                     voter = randint(1, vote_num)
                     vote = randint(1, len(poll._candidates))
                     poll.add_vote(selection[vote], voter)
+                    sys.stdout.write("Auto voting, vote %s of %s\r" % (i+1, vote_num))
                 break
         except ValueError:
             print "\nUnknown Option Selected - please try again or enter 'q' to go back to main menu"
