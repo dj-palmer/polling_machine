@@ -5,6 +5,7 @@ from os import sys
 from poller import Poller
 from collections import OrderedDict
 from random import randint
+from timeit import default_timer as timer
 
 def do_poll():
     """ Create a poll of candidates, and a menu screen to allow a user to view
@@ -39,7 +40,10 @@ def do_poll():
 
         selection=raw_input("Selection:").lower()
         if selection == 'p': 
+            start = timer()
             print(poll)
+            stop = timer()
+            print "\nPoll displayed in %.2f seconds" % (stop - start)  
         elif selection == 'v': 
             manual_vote(poll)
         elif selection == 'a': 
@@ -100,6 +104,9 @@ def auto_vote(poll):
             if vote_num.lower() == 'q':
                 break
             else:
+                start = timer()
+                # ...
+
                 vote_num=int(vote_num)
                 sys.stdout.write("Auto voting, vote 1 of %s\r" % (vote_num))
                 for i in range(0, vote_num):
@@ -107,6 +114,8 @@ def auto_vote(poll):
                     vote = randint(1, len(poll._candidates))
                     poll.add_vote(selection[vote], voter)
                     sys.stdout.write("Auto voting, vote %s of %s\r" % (i+1, vote_num))
+                stop = timer()
+                print "\nCast %d votes in %.2f seconds" % (vote_num, stop - start)  
                 break
         except ValueError:
             print "\nUnknown Option Selected - please try again or enter 'q' to go back to main menu"
