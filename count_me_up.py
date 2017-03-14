@@ -4,6 +4,7 @@
 import argparse
 from poller import Poller
 from collections import OrderedDict
+from random import randint
 
 def do_poll():
     """ Create a poll of candidates, and a menu screen to allow a user to view
@@ -27,6 +28,7 @@ def do_poll():
     menu = OrderedDict([])
     menu['P/p'] = "Print current poll status" 
     menu['V/v'] = "Vote"
+    menu['A/a'] = "Auto vote with x votes"
     menu['Q/q'] = "Quit"
     while True: 
         print "\nMain Menu"
@@ -40,12 +42,18 @@ def do_poll():
             print(poll)
         elif selection == 'v': 
             manual_vote(poll)
+        elif selection == 'a': 
+            auto_vote(poll)
         elif selection == 'q': 
           quit()
         else: 
           print "\nUnknown Option Selected - please try again" 
 
 def manual_vote(poll):
+    """ Allows a user to enter a username and cast a vote for a candidate
+        in the poll. A user is limited to a max number of votes as defined
+        in the VOTE_LIMIT Poller class variable
+    """
     voter = raw_input("Please enter your name:")
     print "Who would you like to vote for?:"
     selection={}
@@ -75,20 +83,30 @@ def manual_vote(poll):
         except ValueError: 
                 print "\nUnknown Option Selected - please try again or enter 'q' to go back to main menu "
 
-def parse_args():
-    parser = argparse.ArgumentParser(
-                description =
-                "A script that sets up a poll for 5 candidates"
-                "and allows users to cast votes."
-                "A running total can be printed at any time by hitting 'p'"
-                ""
-             )
-    # Placeholder for creating a dynamic list of candidates
-    # parser.add_argument('-n', '--number_of_candidates', default=5,
-    #                    help="Creates a poll for n number of candidates")
-    args = parser.parse_args()
-    return args
+def auto_vote(poll):
+    """ For testing the polling machine, allows you to specify a number of votes
+        you would like automatically cast. The username is set to a random number
+        up to these votes -- which are still limited to the VOTE_LIMIT of Poller.
+        So you may find total number of votes in the poll are lower, as some will
+        be refused over the VOTE_LIMIT
+    """
+    selection={}
+    for id, candidate in enumerate(poll._candidates): 
+        selection[id + 1] = candidate._name
 
+    while True:
+        try:
+            vote_num = raw_input("How many votes would you like to automatically cast? Or q to quit:")
+            if vote_num.lower() == 'q':
+                break
+            else:
+                vote_num=int(vote_num)
+                for i in range(0, vote_num):
+                    voter = randint(1, vote_num)
+                    vote = randint(1, len(poll._candidates))
+                    poll.add_vote(selection[vote], voter)
+        except ValueError:
+            print "\nUnknown Option Selected - please try again or enter 'q' to go back to main menu"
 
 if __name__ == "__main__":
     do_poll()
