@@ -105,8 +105,6 @@ def auto_vote(poll):
                 break
             else:
                 start = timer()
-                # ...
-
                 vote_num=int(vote_num)
                 sys.stdout.write("Auto voting, vote 1 of %s\r" % (vote_num))
                 for i in range(0, vote_num):
